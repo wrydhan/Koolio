@@ -17,28 +17,6 @@ export default function Home() {
   const isWrongNetwork = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
 
-  // Get the smart contract
-  const { contract } = useContract(
-    "0xB08BD1aa7Ee2291c60CE7FfcA4A070Fe2c5936F5"
-  );
-
-  // Function to read the greeting from the blockchain
-  const [currentGreeting, setCurrentGreeting] = useState("");
-
-  // Read the greeting from the contract
-  useEffect(() => {
-    async function readGreeting() {
-      const msg = await contract?.call("greet");
-      setCurrentGreeting(msg);
-    }
-
-    if (contract) {
-      readGreeting();
-    }
-  }, [contract]);
-
-  // Store the new greeting the user enters in the input in state
-  const [newGreeting, setNewGreeting] = useState("");
 
   // Function to write the new greeting to the blockchain
   async function writeGreeting() {
@@ -51,36 +29,76 @@ export default function Home() {
 
     await contract?.call("setGreeting", newGreeting);
   }
+  const [isActive, setIsActive] = useState(false);
+
+  const handleClick = () => {
+    // 👇️ toggle
+    setIsActive(current => !current);
+
+    // 👇️ or set to true
+    // setIsActive(true);
+  };
+  var colors = ["red", "lightblue", "gold", "orange", "lightgreen"];   
+  
+  var randomValue = Math.random(4);
 
   return (
+    
+    
+    <body>
+    <h1>Welcome to GTFOL Koolio</h1>
     <div>
+      
+      
       {address ? (
         <>
           <button onClick={disconnectWallet} className="btn2">
             Disconnect Wallet
+
           </button>
 
-          {/* Display current greeting */}
-          <p>
-            Current greeting: <b>{currentGreeting}</b>
-          </p>
+          <body type='bannerBody'>
+            cool, you made it!
 
-          {/* Add a new greeting */}
-          <input
-            type="text"
-            value={newGreeting}
-            className="input"
-            onChange={(e) => setNewGreeting(e.target.value)}
-          />
-          <button onClick={writeGreeting} className="btn">
-            Write Greeting
-          </button>
+
+            
+          </body>
+          <div>
+            <h1>
+              <center>Here is Your Customizable Banner w/ wallet address</center>
+            </h1>
+
+            <h2>(only change color for now)</h2>
+
+            
+            
+            <center><div style={{
+          backgroundColor: isActive ? colors[3] :'',
+          color: isActive ? 'white' : '',
+          height: 100,
+          width: 1000,
+        }}
+        onClick={handleClick}
+      >
+        click here
+      
+               
+                <center> 
+                  {address} 
+                </center>
+            </div>
+              
+            </center>
+          </div>
         </>
       ) : (
         <button onClick={connectWithMetamask} className="btn">
           Connect Wallet
         </button>
+      
       )}
     </div>
+      
+    </body>
   );
 }
