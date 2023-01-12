@@ -21,6 +21,6 @@
     "eslint-config-next": "12.1.0"
   }
   "scripts": {
-    "build": "[my-framework] build --output public"
+    "build": "next build --output public"
   }
 }
