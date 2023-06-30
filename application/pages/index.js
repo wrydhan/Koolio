@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import Web3 from 'web3';
 import { useBalance } from "@thirdweb-dev/react";
 import { NATIVE_TOKEN_ADDRESS } from "@thirdweb-dev/sdk";
+import Image from 'next/image';
 
 
 
@@ -18,10 +19,13 @@ export default function Home() {
   const address = useAddress();
   const connectWithMetamask = useMetamask();
   const disconnectWallet = useDisconnect();
+  const tokenAddress = "{{token_address}}";
 
   const isWrongNetwork = useNetworkMismatch();
   const [, switchNetwork] = useNetwork();
-  const { data, isLoading } = useBalance(NATIVE_TOKEN_ADDRESS);
+
+  const { data, isLoading } = useBalance(tokenAddress);
+
   var colors = ["red", "lightblue", "gold", "orange", "lightgreen"];   
 
   // Function to write the new greeting to the blockchain
@@ -49,20 +53,40 @@ export default function Home() {
   
   return (
     
-    
     <body>
-    <h1 className="text-3xl font-bold underline">Welcome to GTFOL Koolio</h1>
+      <nav class= "w-full shadow-sm text-center aspect-[30] grid grid-cols-12">
+  
+        <div>
+          
+          <Image
+            src="/sunglasses.jpg"
+            width={40}
+            height={40}
+            alt="Pic of glasses"
+          />
+        </div>
+
+
+        <div class="col-start-11">
+          Home
+        </div>
+        <div class="col-start-12">
+          Contact us
+        </div>
+      </nav>
+    <h1 className="text-3xl font-bold underline text-center">Welcome to GTFOL Koolio</h1>
     <div>
       
       
       {address ? (
         <>
+        
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded btn2"
  onClick={disconnectWallet} >
             Disconnect Wallet
 
           </button>
-
+          
           <body type='bannerBody'>
             cool, you made it!
 
@@ -74,11 +98,11 @@ export default function Home() {
               <center>Here is Your Customizable Banner w/ wallet address</center>
             </h1>
 
-            <h2>(only change color for now)</h2>
+            <h2>(Click to chamge color of banner)</h2>
             
             
             
-            <center><div style={{
+            <center><div class="shadow-2xl bg-white rounded-lg border-slate-200 text-center" style={{
           backgroundColor: isActive  ? '#' + Math.random().toString(16).slice(2,8) :'',
           color: isActive ? '#' + Math.random().toString(16).slice(2,8) :'',
           height: 100,
@@ -88,15 +112,15 @@ export default function Home() {
         onClick={handleClick} 
         
       >
-        click here
+        
       
                
-                <center> 
-                  {address} 
-                </center>
+                
+                  Address: {address} 
+                
             </div>
 
-            <h2> Your Balance is: {}</h2>
+            <h2> Your Balance is: {data}</h2>
 
               
             </center>
